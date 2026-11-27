@@ -71,20 +71,8 @@ footer a{text-decoration:none}
   </header>
   <div class="line"></div>
 
-  <!-- Accueil -->
-  <section class="screen on" id="s-home">
-    <p class="kicker" style="margin:0 0 14px">Le jeu de l'étalonneur</p>
-    <h1>Devine le film<br>à partir de ses couleurs</h1>
-    <p class="lead">Chaque film a sa signature colorimétrique. <span id="nRounds">10</span> palettes, <span id="nSecs">20</span> secondes chacune : plus tu réponds vite, plus tu marques de points. Enchaîne les bonnes réponses pour un bonus de série.</p>
-    <div class="row">
-      <button class="btn" id="play">Jouer</button>
-      <button class="btn ghost" id="seeBoard">Classement</button>
-    </div>
-    <div class="board" id="homeBoard" hidden><p class="kicker" style="margin:20px 0 6px">Top 10</p><ol></ol></div>
-  </section>
-
   <!-- Jeu -->
-  <section class="screen" id="s-game">
+  <section class="screen on" id="s-game">
     <div class="hud"><span>Palette <b id="hRound">1</b>/<span id="hTotal">10</span></span><span>Série <b id="hStreak">0</b></span><span>Score <b id="hScore">0</b></span></div>
     <div class="timer"><i id="bar"></i></div>
     <div class="palette" id="pal" role="img" aria-label="Palette de couleurs du film à deviner"></div>
@@ -124,7 +112,6 @@ const CONFIG = {
 const $ = s => document.querySelector(s);
 const films = (window.CP_FILMS || []).filter(f => f.colors && f.colors.length);
 const ROUNDS = Math.min(CONFIG.ROUNDS, films.length);
-$("#nRounds").textContent = ROUNDS; $("#nSecs").textContent = CONFIG.SECONDS;
 $("#hTotal").textContent = ROUNDS;
 
 /* ===== Classement (Supabase ou démo locale) ===== */
@@ -235,10 +222,8 @@ $("#saveForm").addEventListener("submit", async e => {
   } catch (err) { $("#saveBtn").disabled = false; $("#err").textContent = "Impossible d’enregistrer pour le moment. Réessaie."; }
 });
 $("#name").addEventListener("input", () => { $("#err").textContent = ""; });
-$("#play").onclick = start;
 $("#again").onclick = start;
-$("#seeBoard").onclick = () => { const b = $("#homeBoard"); b.hidden = !b.hidden; if (!b.hidden) loadBoard(b); };
-if (films.length < 4) { $("#play").disabled = true; $("#play").textContent = "Ajoute au moins 4 films"; }
+if (films.length < 4) { $("#fb").textContent = "Ajoute au moins 4 films dans palettes.js."; } else { start(); }
 </script>
 </body>
 </html>
